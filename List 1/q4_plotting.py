@@ -1,5 +1,3 @@
-
-import math
 import matplotlib.pyplot as plt
 
 
@@ -42,7 +40,13 @@ def plotar_funcao(f, a, b, n, ax=None, titulo="Grafico de f(x)"):
 
 def funcao_teste(x):
     """Funcao qualquer usada apenas para validar plotar_funcao (letra a)."""
-    return math.sin(x) + 0.3 * x
+    # sin(x) usando serie de Maclaurin
+    sin_x = 0
+    termo = x
+    for n in range(1, 21):
+        sin_x += termo
+        termo = termo * (-(x**2)) / ((2*n) * (2*n + 1))
+    return sin_x + 0.3 * x
 
 
 
@@ -115,12 +119,18 @@ if __name__ == "__main__":
     fig_a, ax_a = plt.subplots(figsize=(7, 5))
     plotar_funcao(funcao_teste, a=0, b=10, n=200, ax=ax_a,
                   titulo="Validacao da letra a): f(x) = sin(x) + 0.3x")
-    fig_a.savefig("questao4a_validacao.png", dpi=150, bbox_inches="tight")
+    fig_a.savefig("List 1/questao4a_validacao.png", dpi=150, bbox_inches="tight")
     print("Grafico da letra a) salvo em questao4a_validacao.png")
 
     # b) aplicacao em f(x) = ln(x) - 2^x + x^2 - 1, [3, 5]
     def f_b(x):
-        return math.log(x) - 2 ** x + x ** 2 - 1
+        # math.log(x) usando serie equivalente (Maclaurin para ln((1+y)/(1-y)))
+        y = (x - 1) / (x + 1)
+        log_x = 0
+        for n in range(50):
+            log_x += (y**(2*n + 1)) / (2*n + 1)
+        log_x *= 2
+        return log_x - 2 ** x + x ** 2 - 1
 
     tol = 1e-6
     lista_p = bissecao_sequencia(f_b, a=3, b=5, tol=tol)
@@ -137,7 +147,7 @@ if __name__ == "__main__":
 
     fig_b = plotar_convergencia(f_b, a=3, b=5, n=200, lista_p=lista_p,
                                  titulo="f(x) = ln(x) - 2^x + x^2 - 1  e  sequencia p_n")
-    fig_b.savefig("questao4b_convergencia.png", dpi=150, bbox_inches="tight")
+    fig_b.savefig("List 1/questao4b_convergencia.png", dpi=150, bbox_inches="tight")
     print("Grafico da letra b) salvo em questao4b_convergencia.png")
 
 # ---------------------------------------------------------------------------

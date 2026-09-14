@@ -1,11 +1,3 @@
-"""
-Questao 6 - Metodos Numericos (Prof. Thales Vieira)
-Equacao: x^3 - 2x - 5 = 0
-
-Implementacoes SEM uso de bibliotecas numericas (apenas Python puro).
-"""
-
-
 def f(x):
     """f(x) = x^3 - 2x - 5"""
     return x**3 - 2*x - 5
