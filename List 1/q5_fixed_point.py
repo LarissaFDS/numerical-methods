@@ -1,30 +1,18 @@
 def g1(x):
-    """
-    Função de iteração g1(x) = 1 / (1 + x)
-    """
     return 1.0 / (1.0 + x)
 
 def g2(x):
-    """
-    Função de iteração g2(x) = 1 - (1 / x)
-    """
-    return 1.0 - (1.0 / x)
+    return (1.0 / x) - 1.0
 
 def ponto_fixo(g, x0, tol, Nmax):
-    """
-    Método de iteração de ponto fixo.
-    Critério de parada: |x_new - x_old| < tol
-    """
     x_old = x0
     
     for i in range(1, Nmax + 1):
         try:
             x_new = g(x_old)
         except ZeroDivisionError:
-            #Tratamento de exceção para divisão por zero (especialmente para g2)
-            return None, i, "Erro de convergência: divisão por zero."
+           return None, i, "Erro de convergência: divisão por zero."
             
-        #Critério de parada
         if abs(x_new - x_old) < tol:
             return x_new, i, "Sucesso (Convergiu)"
             
@@ -55,7 +43,7 @@ if __name__ == '__main__':
     
     print("-" * 70)
     
-    print("-> Testando g2(x) = 1 - (1 / x)")
+    print("-> Testando g2(x) = (1 / x) - 1")
     raiz_g2, iter_g2, status_g2 = ponto_fixo(g2, x0, tol, Nmax)
     
     print(f"Status: {status_g2}")
