@@ -25,8 +25,7 @@ def fmt(q, casas=6):
 
 # ----------------------------------------------------------------------------- (a)
 def equacoes_normais(x, y, n):
-    """Sistema das equações normais (8.3) para p_n(x) = a0 + a1 x + ... + an x^n:
-         sum_k a_k * (sum_i x_i^(j+k)) = sum_i y_i x_i^j ,   j = 0..n."""
+    #Sistema das equações normais (8.3) para p_n(x) = a0 + a1 x + ... + an x^n: a_k * (sum_i x_i^(j+k)) = sum_i y_i x_i^j ,   j = 0..n
     S = [sum(xi ** p for xi in x) for p in range(2 * n + 1)]
     A = [[S[j + k] for k in range(n + 1)] for j in range(n + 1)]
     b = [sum(yi * xi ** j for xi, yi in zip(x, y)) for j in range(n + 1)]
@@ -34,8 +33,7 @@ def equacoes_normais(x, y, n):
 
 
 def eliminacao_gauss(A, b):
-    """Eliminação de Gauss com pivoteamento parcial + substituição regressiva
-    (Algoritmos 6.1/6.2). Funciona com Fraction (exato) ou float."""
+    #Eliminação de Gauss com pivoteamento parcial + substituição regressiva (Algoritmos 6.1/6.2). Funciona com Fraction (exato) ou float.
     n = len(A)
     M = [list(linha) + [bi] for linha, bi in zip(A, b)]
     for i in range(n):
@@ -53,7 +51,7 @@ def eliminacao_gauss(A, b):
 
 
 def avaliar_poli(coef, t):
-    """Horner: coef = [a0, a1, ..., an]."""
+    #Horner: coef = [a0, a1, ..., an].
     r = 0
     for a in reversed(coef):
         r = r * t + a
@@ -62,7 +60,7 @@ def avaliar_poli(coef, t):
 
 # ----------------------------------------------------------------------------- (b)
 def base_lagrange(x, k, t):
-    """L_{n,k}(t) = prod_{i != k} (t - x_i) / (x_k - x_i)   (Eq. 3.2)."""
+    #L_{n,k}(t) = prod_{i != k} (t - x_i) / (x_k - x_i)   (Eq. 3.2).
     L = Fr(1)
     for i, xi in enumerate(x):
         if i != k:
@@ -71,7 +69,7 @@ def base_lagrange(x, k, t):
 
 
 def lagrange(x, y, t):
-    """P(t) = sum_k y_k L_{n,k}(t)   (Eq. 3.1)."""
+    #P(t) = sum_k y_k L_{n,k}(t)   (Eq. 3.1).
     return sum(yk * base_lagrange(x, k, t) for k, yk in enumerate(y))
 
 
@@ -84,7 +82,7 @@ def mult_poli(p, q):
 
 
 def coeficientes_lagrange(x, y):
-    """Expande P(x) = sum_k y_k L_k(x) na base de monômios (só para exibição)."""
+    #Expande P(x) = sum_k y_k L_k(x) na base de monômios (só para exibição).
     n = len(x)
     total = [Fr(0)] * n
     for k in range(n):
@@ -99,9 +97,8 @@ def coeficientes_lagrange(x, y):
 
 # ----------------------------------------------------------------------------- (c)
 def neville(x, y, t):
-    """Algoritmo 3.1. Q[i][0] = y_i e
-        Q[i][j] = ((t - x_{i-j}) Q[i][j-1] - (t - x_i) Q[i-1][j-1]) / (x_i - x_{i-j}),
-    Q[i][j] = valor em t do polinômio que interpola x_{i-j}, ..., x_i (Teorema 3.5)."""
+    #Algoritmo 3.1. Q[i][0] = y_i e Q[i][j] = ((t - x_{i-j}) Q[i][j-1] - (t - x_i) Q[i-1][j-1]) / (x_i - x_{i-j}),
+    #Q[i][j] = valor em t do polinômio que interpola x_{i-j}, ..., x_i (Teorema 3.5).
     n = len(x)
     Q = [[None] * n for _ in range(n)]
     for i in range(n):
@@ -122,7 +119,7 @@ def termo_poli(coef, var="h"):
     return " ".join(partes).lstrip("+ ")
 
 
-def plotar(c2, c4, v2, v4, arquivo="q2_ajuste.png"):
+def plotar(c2, c4, v2, v4, arquivo="List 3/q2_ajuste.png"):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -185,4 +182,4 @@ if __name__ == "__main__":
 
     print(f"\nDiferença entre as estimativas: p2 - p4 = {fmt(v2 - v4)} L")
     plotar(a, c4, v2, v4)
-    print("Figura salva em q2_ajuste.png")
+    print("Figura salva em List 3/q2_ajuste.png")
